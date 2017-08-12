@@ -1,0 +1,71 @@
+:source-highlighter: highlightjs
+
+= ReadMe
+
+== このソフトウェアについて
+
+Python学習サイトのHTML文字列生成クラスのWrapを修正し、単体テストをした。
+
+=== 修正したメソッド
+
+* Wrapメソッド
+    * 前: `Wrap(self, inner_html, element_name, id_=None, class_=None, **attributes)`
+    * 後: `Wrap(self, outer_html, inner_html)`
+
+作成済みのHTML文字列を引数にとるようにした。見やすく扱いやすくなる。
+
+=== 修正したバグ
+
+* __CreateAttributesメソッド
+    * id_, class_
+        * 末尾のスペースがなかった。後続の属性キーと繋がってしまう
+        * 文字列結合していなかった。前の属性キーが代入によって上書きされて消える
+    * 末尾のスペースが余計だった
+* __CreateStartElementメソッド
+    * None, 空文字, 空白文字のみの場合に例外を発生するようにした
+        * element_name = None の場合、`<None></None>`になってしまう
+        * element_name = '' の場合、`<></>`になってしまう
+        * element_name = '    ' の場合、`<    ></    >`になってしまう
+
+== 開発環境
+
+* LinuxMint 17.3 MATE 32bit
+** http://ytyaru.hatenablog.com/entry/2017/05/30/000000[rbenv]
+*** Ruby 2.4.0
+**** http://ytyaru.hatenablog.com/entry/2017/06/20/000000[AsciiDoctor]
+** Firefox
+*** http://ytyaru.hatenablog.com/entry/2017/06/19/000000[AsciiDoc ビューア]
+** pluma
+*** http://ytyaru.hatenablog.com/entry/2017/06/18/000000[AsciiDoc ハイライト]
+
+== 参考
+
+* http://asciidoctor.org/docs/user-manual/#by-line-ranges
+
+== 実行
+
+[source, sh]
+----
+bash run.sh
+----
+
+== 結果
+
+HTML文字列が標準出力される。 `index.html` ファイルを手で書いてみた。ブラウザで表示確認できる。
+
+== ライセンス
+
+このソフトウェアはCC0ライセンスである。
+
+image:http://i.creativecommons.org/p/zero/1.0/88x31.png[link=http://creativecommons.org/publicdomain/zero/1.0/deed.ja]
+
+利用したソフトウェアとそのライセンスは以下。感謝。
+
+[options="header, autowidth"]
+|=======================
+|Library|License|Copyright
+|http://asciidoctor.org/[AsciiDoctor]|https://github.com/asciidoctor/asciidoctor/blob/master/LICENSE.adoc[MIT]|Copyright (C) 2012-2016 Dan Allen, Ryan Waldron and the Asciidoctor Project
+|https://highlightjs.org/[highlight.js]|https://github.com/isagalaev/highlight.js/blob/master/LICENSE[BSD 3-clause]|Copyright (c) 2006, Ivan Sagalaev
+|http://fontawesome.io/icon/home/[FontAwesome]|http://fontawesome.io/license/[MIT]|https://github.com/FortAwesome/Font-Awesome
+|=======================
+
